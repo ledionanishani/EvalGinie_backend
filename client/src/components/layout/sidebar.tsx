@@ -1,4 +1,4 @@
-import { Users, Database, MessageSquare, FileText, Settings, Home, ChevronRight, ChevronDown, HelpCircle, LogOut, LayoutDashboard } from "lucide-react";
+import { Users, Database, MessageSquare, FileText, Settings, Home, ChevronRight, ChevronDown, HelpCircle, LogOut, LayoutDashboard, FileJson, BookOpen, Files, BarChart2, CheckSquare } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -11,7 +11,7 @@ interface SidebarProps {
 export function Sidebar({ className }: SidebarProps) {
   const [location] = useLocation();
   const [isContextOpen, setIsContextOpen] = useState(true);
-  const [isAudienceOpen, setIsAudienceOpen] = useState(true);
+  const [isEvalOpen, setIsEvalOpen] = useState(true);
 
   const isActive = (path: string) => location === path;
 
@@ -66,43 +66,6 @@ export function Sidebar({ className }: SidebarProps) {
               </a>
             </Link>
 
-            {/* Audience Group */}
-            <div className="pt-2">
-              <button 
-                onClick={() => setIsAudienceOpen(!isAudienceOpen)}
-                className="flex w-full items-center justify-between px-2 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-md hover:bg-sidebar-accent/50"
-              >
-                <div className="flex items-center gap-2">
-                  <Users className="w-4 h-4" />
-                  Audience
-                </div>
-                {isAudienceOpen ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
-              </button>
-              
-              {isAudienceOpen && (
-                <div className="mt-1 ml-4 pl-2 border-l border-sidebar-border space-y-1">
-                  <Link href="/domain/maps/owners">
-                    <a className={cn("block px-2 py-1.5 text-sm rounded-md transition-colors", 
-                      isActive("/domain/maps/owners") ? "text-indigo-600 font-medium bg-indigo-50/50" : "text-muted-foreground hover:text-foreground")}>
-                      Owners <span className="ml-auto text-xs opacity-60 float-right">1</span>
-                    </a>
-                  </Link>
-                  <Link href="/domain/maps/members">
-                    <a className={cn("block px-2 py-1.5 text-sm rounded-md transition-colors", 
-                      isActive("/domain/maps/members") ? "text-indigo-600 font-medium bg-indigo-50/50" : "text-muted-foreground hover:text-foreground")}>
-                      Members <span className="ml-auto text-xs opacity-60 float-right">11</span>
-                    </a>
-                  </Link>
-                  <Link href="/domain/maps/requests">
-                    <a className={cn("block px-2 py-1.5 text-sm rounded-md transition-colors", 
-                      isActive("/domain/maps/requests") ? "text-indigo-600 font-medium bg-indigo-50/50" : "text-muted-foreground hover:text-foreground")}>
-                      Requests <span className="ml-auto text-xs opacity-60 float-right">0</span>
-                    </a>
-                  </Link>
-                </div>
-              )}
-            </div>
-
             {/* Context Group */}
             <div className="pt-2">
               <button 
@@ -118,22 +81,65 @@ export function Sidebar({ className }: SidebarProps) {
               
               {isContextOpen && (
                 <div className="mt-1 ml-4 pl-2 border-l border-sidebar-border space-y-1">
-                  <Link href="/domain/maps/schemas">
+                  <Link href="/domain/maps/agent-io">
                     <a className={cn("block px-2 py-1.5 text-sm rounded-md transition-colors", 
-                      isActive("/domain/maps/schemas") ? "text-indigo-600 font-medium bg-indigo-50/50" : "text-muted-foreground hover:text-foreground")}>
-                      Schemas
+                      isActive("/domain/maps/agent-io") ? "text-indigo-600 font-medium bg-indigo-50/50" : "text-muted-foreground hover:text-foreground")}>
+                      1. Agent I/O
                     </a>
                   </Link>
-                  <Link href="/domain/maps/training">
+                  <Link href="/domain/maps/user-stories">
                     <a className={cn("block px-2 py-1.5 text-sm rounded-md transition-colors", 
-                      isActive("/domain/maps/training") ? "text-indigo-600 font-medium bg-indigo-50/50" : "text-muted-foreground hover:text-foreground")}>
-                      Training examples
+                      isActive("/domain/maps/user-stories") ? "text-indigo-600 font-medium bg-indigo-50/50" : "text-muted-foreground hover:text-foreground")}>
+                      2. User Stories
                     </a>
                   </Link>
                   <Link href="/domain/maps/prompts">
                     <a className={cn("block px-2 py-1.5 text-sm rounded-md transition-colors", 
                       isActive("/domain/maps/prompts") ? "text-indigo-600 font-medium bg-indigo-50/50" : "text-muted-foreground hover:text-foreground")}>
-                      Prompts <span className="ml-auto text-xs opacity-60 float-right">99</span>
+                      3. Prompt / Code
+                    </a>
+                  </Link>
+                   <Link href="/domain/maps/rag-context">
+                    <a className={cn("block px-2 py-1.5 text-sm rounded-md transition-colors", 
+                      isActive("/domain/maps/rag-context") ? "text-indigo-600 font-medium bg-indigo-50/50" : "text-muted-foreground hover:text-foreground")}>
+                      4. RAG Context
+                    </a>
+                  </Link>
+                  <Link href="/domain/maps/training">
+                    <a className={cn("block px-2 py-1.5 text-sm rounded-md transition-colors", 
+                      isActive("/domain/maps/training") ? "text-indigo-600 font-medium bg-indigo-50/50" : "text-muted-foreground hover:text-foreground")}>
+                      5. Sample Q&A
+                    </a>
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            {/* Evaluation Group */}
+             <div className="pt-2">
+              <button 
+                onClick={() => setIsEvalOpen(!isEvalOpen)}
+                className="flex w-full items-center justify-between px-2 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground rounded-md hover:bg-sidebar-accent/50"
+              >
+                <div className="flex items-center gap-2">
+                  <CheckSquare className="w-4 h-4" />
+                  Evaluation
+                </div>
+                {isEvalOpen ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
+              </button>
+              
+              {isEvalOpen && (
+                <div className="mt-1 ml-4 pl-2 border-l border-sidebar-border space-y-1">
+                  <Link href="/domain/maps/test-sets">
+                    <a className={cn("block px-2 py-1.5 text-sm rounded-md transition-colors", 
+                      isActive("/domain/maps/test-sets") ? "text-indigo-600 font-medium bg-indigo-50/50" : "text-muted-foreground hover:text-foreground")}>
+                      Test Sets (GT)
+                    </a>
+                  </Link>
+                  <Link href="/domain/maps/metrics">
+                    <a className={cn("block px-2 py-1.5 text-sm rounded-md transition-colors", 
+                      isActive("/domain/maps/metrics") ? "text-indigo-600 font-medium bg-indigo-50/50" : "text-muted-foreground hover:text-foreground")}>
+                      Metrics Dashboard
                     </a>
                   </Link>
                 </div>
