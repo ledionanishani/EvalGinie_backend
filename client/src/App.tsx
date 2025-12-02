@@ -6,15 +6,15 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Landing from "@/pages/landing";
 import Login from "@/pages/login";
-import DomainGeneral from "@/pages/domain/general";
-import DomainSchemas from "@/pages/domain/schemas";
-import DomainTraining from "@/pages/domain/training";
-import DomainPrompts from "@/pages/domain/prompts";
-import AgentIO from "@/pages/domain/agent-io";
-import UserStories from "@/pages/domain/user-stories";
-import RagContext from "@/pages/domain/rag-context";
-import TestSets from "@/pages/domain/test-sets";
-import MetricsDashboard from "@/pages/domain/metrics";
+import DomainGeneral from "./pages/domain/general";
+import DomainSchemas from "./pages/domain/schemas";
+import DomainTraining from "./pages/domain/training";
+import DomainPrompts from "./pages/domain/prompts";
+import AgentIO from "./pages/domain/agent-io";
+import UserStories from "./pages/domain/user-stories";
+import RagContext from "./pages/domain/rag-context";
+import TestSets from "./pages/domain/test-sets";
+import MetricsDashboard from "./pages/domain/metrics";
 
 function Router() {
   return (
