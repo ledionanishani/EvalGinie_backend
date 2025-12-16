@@ -8,31 +8,40 @@ import { useToast } from "@/hooks/use-toast";
 import { api, setToken } from "@/lib/api";
 import logo from "@assets/generated_images/minimalist_abstract_geometric_logo_for_ai_evaluation_platform.png";
 
-export default function Login() {
+export default function Signup() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [email, setEmail] = useState("demo@evalsgenie.com");
-  const [password, setPassword] = useState("password");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const response = await api.auth.login(email, password);
-      setToken(response.access_token);
+      // First, create the account
+      await api.auth.signup(email, password);
       
       toast({
-        title: "Login successful",
-        description: "Welcome back to EvalsGenie!",
+        title: "Account created!",
+        description: "Logging you in...",
+      });
+
+      // Then automatically log them in
+      const loginResponse = await api.auth.login(email, password);
+      setToken(loginResponse.access_token);
+      
+      toast({
+        title: "Welcome to EvalsGenie!",
+        description: "Your account has been created successfully.",
       });
       
       setLocation("/domain/maps");
     } catch (error) {
       toast({
-        title: "Login failed",
-        description: error instanceof Error ? error.message : "Invalid email or password",
+        title: "Signup failed",
+        description: error instanceof Error ? error.message : "Could not create account",
         variant: "destructive",
       });
     } finally {
@@ -49,13 +58,13 @@ export default function Login() {
                 <img src={logo} alt="Logo" className="w-full h-full object-cover" />
             </div>
           </div>
-          <CardTitle className="text-2xl font-bold">Welcome back</CardTitle>
+          <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
           <CardDescription>
-            Enter your credentials to access EvalsGenie
+            Enter your email and password to get started with EvalsGenie
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
-          <form onSubmit={handleLogin} className="grid gap-4">
+          <form onSubmit={handleSignup} className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -73,6 +82,7 @@ export default function Login() {
               <Input
                 id="password"
                 type="password"
+                placeholder="Create a password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -84,13 +94,13 @@ export default function Login() {
               type="submit"
               disabled={isLoading}
             >
-              {isLoading ? "Signing in..." : "Sign in"}
+              {isLoading ? "Creating account..." : "Sign up"}
             </Button>
           </form>
         </CardContent>
         <CardFooter>
           <p className="text-xs text-center text-muted-foreground w-full">
-            Don't have an account? <Link href="/signup"><a className="underline hover:text-indigo-600">Sign up</a></Link>
+            Already have an account? <Link href="/login"><a className="underline hover:text-indigo-600">Sign in</a></Link>
           </p>
         </CardFooter>
       </Card>
